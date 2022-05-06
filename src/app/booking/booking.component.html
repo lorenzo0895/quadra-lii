@@ -1,0 +1,14 @@
+<main>
+  <full-calendar #calendar [options]="options"></full-calendar>
+  <app-booking-confirmation
+    #bc
+    *ngIf="isDialogShown"
+    [date]="date"
+    [hourBooked]="hourBooked"
+    (onCancel)="closeDialog()"
+    (onConfirm)="book($event)"
+  ></app-booking-confirmation>
+  <small class="info">
+    Por problemas en reservas escribir a <a href="mailto:lorenzo0895@gmail.com">lorenzo0895@gmail.com</a>
+  </small>
+</main>

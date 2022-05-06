@@ -1,0 +1,20 @@
+main {
+  padding: 20px;
+  .info {
+    margin-top: 60px;
+    text-align: center;
+  }
+}
+:host ::ng-deep .fc .fc-toolbar-title {
+  text-transform: capitalize;
+}
+
+:host ::ng-deep .fc.fc-theme-standard .fc-view-harness th {
+  position: relative;
+  z-index: 0;
+}
+@media screen and (min-width: 700px) {
+  main {
+    padding: 20px 20%;
+  }
+}
