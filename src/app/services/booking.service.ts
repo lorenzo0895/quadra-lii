@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, mapTo, tap, toArray } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 type booking = {
   _id: string;
@@ -15,7 +16,7 @@ type booking = {
   providedIn: 'root',
 })
 export class BookingService {
-  uri: string = '/api/books';
+  uri: string = environment.URI_API_BOOKS;
 
   constructor(private http: HttpClient) {}
 
