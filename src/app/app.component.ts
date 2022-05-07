@@ -13,14 +13,23 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
+        label: 'Quadra LII',
+        items: [
+          { label: 'Reglamento Interno', routerLink: '/info/procedure' },
+          { label: 'Novedades', routerLink: '/info/news' },
+        ],
+      },
+      {
         label: 'Perfil',
-        items: [{ label: 'Cambiar contraseña', routerLink: '/profile/password' }],
+        items: [
+          { label: 'Cambiar contraseña', routerLink: '/profile/password' },
+        ],
       },
       {
         label: 'Reservas',
         items: [
           { label: 'Ver calendario', routerLink: 'booking' },
-          { label: 'Buscar/Cancelar Reservas', routerLink: 'booking' }
+          // { label: 'Buscar/Cancelar Reservas', routerLink: 'booking' },
         ],
       },
     ];

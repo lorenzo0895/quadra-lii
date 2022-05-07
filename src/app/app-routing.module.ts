@@ -17,13 +17,13 @@ const routes: Routes = [
           import('./profile/profile.module').then((m) => m.ProfileModule),
       },
       {
-        path: '**',
-        redirectTo: 'booking'
+        path: 'info',
+        loadChildren: () =>
+          import('./public/public.module').then((m) => m.PublicModule),
       },
       {
-        path: '',
-        redirectTo: 'booking',
-        pathMatch: 'full'
+        path: '**',
+        redirectTo: 'booking'
       },
     ],
   },

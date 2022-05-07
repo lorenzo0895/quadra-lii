@@ -1,0 +1,55 @@
+main {
+  padding: 40px 20px;
+  h1 {
+    font-size: 20px;
+    text-decoration: underline;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  h2 {
+    display: inline;
+    font-size: 17px;
+    text-decoration: underline;
+    margin-bottom: 15px;
+  }
+  p {
+    font-size: 12px;
+  }
+  ol {
+    list-style-type: none;
+    counter-reset: item;
+    margin: 0;
+    padding: 0;
+  }
+  
+  ol > li {
+    display: table;
+    counter-increment: item;
+    margin-bottom: 0.6em;
+  }
+  
+  ol > li:before {
+    content: counters(item, ".") ". ";
+    display: table-cell;
+    padding-right: 0.6em;    
+  }
+  
+  li ol > li {
+    margin: 0;
+  }
+  
+  li ol > li:before {
+    content: counters(item, ".") " ";
+  }
+}
+
+@media screen and (min-width: 800px) {
+  main {
+    padding: 40px 10%;
+  }
+}
+@media screen and (min-width: 1200px) {
+  main {
+    padding: 40px 20%;
+  }
+}

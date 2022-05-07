@@ -37,7 +37,7 @@
           (click)="toggleConfirm()"
           label="Confirmar"
           icon="pi pi-check"
-          *ngIf="!isLoading"
+          *ngIf="!isLoading && !isPast"
         ></p-button>
       </div>
     </form>
