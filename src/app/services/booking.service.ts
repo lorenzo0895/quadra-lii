@@ -16,7 +16,7 @@ type booking = {
   providedIn: 'root',
 })
 export class BookingService {
-  uri: string = environment.URI_API_BOOKS;
+  uri: string = '/api/books';
 
   constructor(private http: HttpClient) {}
 
