@@ -1,13 +1,20 @@
+<p-toast></p-toast>
+
 <main>
   <full-calendar #calendar [options]="options"></full-calendar>
   <app-booking-confirmation
     #bc
     *ngIf="isDialogShown"
     [date]="date"
-    [hourBooked]="hourBooked"
-    (onCancel)="closeDialog()"
+    (onCancel)="isDialogShown = false"
     (onConfirm)="book($event)"
   ></app-booking-confirmation>
+  <app-cancel-confirmation
+    *ngIf="isCancelShown"
+    [id]="id"
+    (onCancel)="isCancelShown = false"
+    (onConfirm)="cancelTurn($event)"
+  ></app-cancel-confirmation>
   <small class="info">
     Por problemas en reservas escribir a <a href="mailto:lorenzo0895@gmail.com">lorenzo0895@gmail.com</a>
   </small>

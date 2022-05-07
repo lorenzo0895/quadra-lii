@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BookingService } from 'src/app/services/booking.service';
 
 @Component({
   selector: 'app-booking-confirmation',
@@ -9,15 +10,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class BookingConfirmationComponent implements OnInit {
   form!: FormGroup;
   flats!: any[];
-  selectedCity1!: any;
   error: string = '';
   isPast: boolean = false;
+  isLoading: boolean = true;
   @Input() date!: string;
-  @Input() hourBooked!: string[];
+  hourBooked!: string[];
   @Output() onConfirm: EventEmitter<any> = new EventEmitter();
   @Output() onCancel: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private bookingService: BookingService) {
     this.form = this.fb.group({
       day: [null, [Validators.required]],
       hour: [null, [Validators.required]],
@@ -28,63 +29,78 @@ export class BookingConfirmationComponent implements OnInit {
 
   ngOnInit() {
     this.isPastFunction();
-    this.flats = [
-      {
-        floor: '1º',
-        dptos: [
-          '1º A',
-          '1º B',
-          '1º C',
-          '1º D',
-        ]
-      },
-      {
-        floor: '2º',
-        dptos: [
-          '2º A',
-          '2º B',
-          '2º C',
-          '2º D',
-        ]
-      },
-      {
-        floor: '3º',
-        dptos: [
-          '3º A',
-          '3º B',
-          '3º C',
-          '3º D',
-        ]
-      },
-      {
-        floor: '4º',
-        dptos: [
-          '4º A',
-          '4º B',
-          '4º C',
-          '4º D',
-        ]
-      },
-      {
-        floor: '5º',
-        dptos: [
-          '5º A',
-          '5º B',
-          '5º C',
-          '5º D',
-        ]
-      },
-      {
-        floor: '6º',
-        dptos: [
-          '6º A',
-          '6º B',
-          '6º C',
-          '6º D',
-        ]
-      },
-    ];
-    this.form.controls['day'].setValue(this.date);
+    if(this.isPast) {
+      this.isLoading = false;
+    } else {
+      this.bookingService.getBookingsByDate(this.date).subscribe({
+        next: (el) => {
+          this.hourBooked = el;
+        },
+        error: () => {
+          this.error = 'Ocurrió un error al revisar revervas ya efectuadas'
+        },
+        complete: () => {
+          this.isLoading = false;
+        }
+      })
+      this.flats = [
+        {
+          floor: '1º',
+          dptos: [
+            '1º A',
+            '1º B',
+            '1º C',
+            '1º D',
+          ]
+        },
+        {
+          floor: '2º',
+          dptos: [
+            '2º A',
+            '2º B',
+            '2º C',
+            '2º D',
+          ]
+        },
+        {
+          floor: '3º',
+          dptos: [
+            '3º A',
+            '3º B',
+            '3º C',
+            '3º D',
+          ]
+        },
+        {
+          floor: '4º',
+          dptos: [
+            '4º A',
+            '4º B',
+            '4º C',
+            '4º D',
+          ]
+        },
+        {
+          floor: '5º',
+          dptos: [
+            '5º A',
+            '5º B',
+            '5º C',
+            '5º D',
+          ]
+        },
+        {
+          floor: '6º',
+          dptos: [
+            '6º A',
+            '6º B',
+            '6º C',
+            '6º D',
+          ]
+        },
+      ];
+      this.form.controls['day'].setValue(this.date);
+    }
   }
 
   get flat() {

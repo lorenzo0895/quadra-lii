@@ -7,20 +7,23 @@ import { EventInput, FullCalendarComponent } from '@fullcalendar/angular';
 // import interactionPlugin from '@fullcalendar/interaction'; // a plugin!
 import { CalendarOptions } from '@fullcalendar/angular';
 import { BookingConfirmationComponent } from './booking-confirmation/booking-confirmation.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
   styleUrls: ['./booking.component.scss'],
+  providers: [MessageService]
 })
 export class BookingComponent implements OnInit {
   isDialogShown: boolean = false;
-  date: string = '';
-  hourBooked!: any[];
+  isCancelShown: boolean = false
   options!: CalendarOptions;
+  date!: string;
+  id! : string;
   @ViewChild('bc') bookingConfirmationComponent!: BookingConfirmationComponent;
 
-  constructor(private bookingService: BookingService) {}
+  constructor(private bookingService: BookingService, private messageService: MessageService) {}
 
   ngOnInit(): void {
     this.options = {
@@ -34,39 +37,52 @@ export class BookingComponent implements OnInit {
       locale: esLocale,
       displayEventTime: false,
       dateClick: (e) => {
+        this.isDialogShown = true;
         this.date = e.date.toISOString().substring(0, 10);
-        this.bookingService.getBookingsByDate(this.date).subscribe((el) => {
-          this.isDialogShown = true;
-          this.hourBooked = el;
-        });
       },
       eventClick: (e) => {
-        console.log(e.event.id);
+        this.id = e.event.id;
+        this.isCancelShown = true;
       },
     };
     this.bookingService.getBookings().subscribe((res: any) => {
       this.options = { ...this.options, events: res };
     });
   }
-
-  closeDialog() {
-    this.isDialogShown = false;
-  }
-
   book(body: any) {
+    console.log(body)
     this.bookingService.postBooking(body).subscribe({
       next: (el: any) => {
         if (el?.error) {
           this.bookingConfirmationComponent.error = el.error;
+          this.messageService.add({severity: 'error', summary: 'Error', detail: 'No se pudo realizar la reserva'})
         } else {
           this.options = {...this.options, events: [...<EventInput[]>this.options?.events, el]}
-          this.closeDialog();
+          this.messageService.add({severity: 'success', summary: 'Éxito', detail: 'Turno reservado con éxito'})
+          this.isDialogShown = false;
         }
       },
-      error: () => {
-        this.bookingConfirmationComponent.error = 'Ocurrió un error';
+      error: (error) => {
+        this.bookingConfirmationComponent.error = error;
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'No se pudo realizar la reserva'})
       },
     });
+  }
+  cancelTurn(body: any) {
+    this.bookingService.deleteBooking(body).subscribe({
+      next: (res:any) => {
+        if(res.success) {
+          this.options = {...this.options, events: (<EventInput[]>this.options?.events).filter(el => el.id != body.id)}
+          this.messageService.add({severity: 'success', summary: 'Éxito', detail: 'Reserva cancelada con éxito'})
+          this.isCancelShown = false;
+        } else {
+          this.messageService.add({severity: 'error', summary: 'Error', detail: res.error})
+        }
+      },
+      error: (error) => {
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'No pudo cancelarse la reserva'})
+      }
+    })
   }
 
 }

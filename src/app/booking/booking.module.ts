@@ -17,16 +17,21 @@ import { TabViewModule } from 'primeng/tabview';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
 import { BookingConfirmationComponent } from './booking-confirmation/booking-confirmation.component';
+import { SharedModule } from '../shared/shared.module';
+import { ToastModule } from 'primeng/toast';
+import { CancelConfirmationComponent } from './cancel-confirmation/cancel-confirmation.component';
 
-FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+FullCalendarModule.registerPlugins([
+  // register FullCalendar plugins
   dayGridPlugin,
-  interactionPlugin
+  interactionPlugin,
 ]);
 
 @NgModule({
   declarations: [
     BookingComponent,
-    BookingConfirmationComponent
+    BookingConfirmationComponent,
+    CancelConfirmationComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +48,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ReactiveFormsModule,
     FormsModule,
     CascadeSelectModule,
-  ]
+    SharedModule,
+    ToastModule,
+  ],
 })
-export class BookingModule { }
+export class BookingModule {}

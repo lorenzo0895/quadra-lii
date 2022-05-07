@@ -1,0 +1,42 @@
+<div class="background" [style]="{ height: getHeight() + 'px' }">
+  <div class="confirmation">
+    <form [formGroup]="form">
+      <h4>Cacelación de Reserva</h4>
+      <div *ngIf="isLoading" class="spinner">
+        <app-spinner></app-spinner>
+      </div>
+      <div *ngIf="!isLoading">
+        <p>
+          Usted está por cancelar la reserva del día
+          {{ booking?.start | date: "dd/MM/yy" }} para turno
+          {{ start | date: "hh:mm a" }}
+        </p>
+        <input
+          type="password"
+          formControlName="password"
+          aria-describedby="password-help"
+          [style]="{ width: '200px' }"
+          pInputText
+          placeholder="Contraseña"
+        />
+      </div>
+      <div class="form-buttons">
+        <button
+          (click)="toggleCancel()"
+          pButton
+          pRipple
+          type="button"
+          label="Cancelar"
+          class="p-button-secondary p-button-text"
+          icon="pi pi-times"
+        ></button>
+        <p-button
+          (click)="toggleConfirm()"
+          label="Confirmar"
+          icon="pi pi-check"
+          *ngIf="!isLoading"
+        ></p-button>
+      </div>
+    </form>
+  </div>
+</div>

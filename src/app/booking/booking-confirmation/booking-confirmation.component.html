@@ -1,79 +1,84 @@
 <div class="background" [style]="{ height: getHeight() + 'px' }">
   <div class="confirmation">
     <h4>Reserva {{ date ? (date | date: "dd/MM/yy") : '' }}</h4>
-    <form [formGroup]="form">
-      <small *ngIf="isPast" class="p-error block">
-        No puede reservarse un día que ya pasó
-      </small>
-      <small *ngIf="hourBooked?.length == 2 && !isPast" class="p-error block">
-        Ya se reservaron todos los turnos para este día
-      </small>
-      <div *ngIf="hourBooked?.length != 2 && !isPast">
-      <small *ngIf="error != ''" class="p-error block">
-        {{error}}
-      </small>
-      <div class="field">
-        <p-cascadeSelect
-          [ngClass]="{'ng-invalid ng-dirty': flat?.touched && flat?.hasError('required')}"
-          formControlName="flat"
-          aria-describedby="flat-help"
-          [options]="flats"
-          optionGroupLabel="floor"
-          [optionGroupChildren]="['dptos']"
-          [style]="{ width: '100px' }"
-          placeholder="Dpto"
-        ></p-cascadeSelect>
-        <small *ngIf="flat?.touched && flat?.hasError('required')" id="flat-help" class="p-error block">
-          Debe seleccionar un departamento
-        </small>
-      </div>
-
-      <div class="field">
-        <div class="field-radiobutton" *ngIf="!hourBooked.includes('day')">
-          <p-radioButton
-            aria-describedby="hour-help"
-            class="radio-button"
-            name="hour"
-            value="day"
-            formControlName="hour"
-            inputId="day"
-          ></p-radioButton>
-          <label for="day">Día</label>
-        </div>
-        <div class="field-radiobutton" *ngIf="!hourBooked.includes('night')">
-          <p-radioButton
-            aria-describedby="hour-help"
-            class="radio-button"
-            name="hour"
-            value="night"
-            formControlName="hour"
-            inputId="night"
-          ></p-radioButton>
-          <label for="night">Noche</label>
-        </div>
-        <small *ngIf="hour?.touched && hour?.hasError('required')" id="hour-help" class="p-error block">
-          Debe seleccionar un horario
-        </small>
-      </div>
-
-      <div class="field">
-        <input
-          type="password"
-          aria-describedby="password-help"
-          [ngClass]="{'ng-invalid ng-dirty': password?.touched && password?.hasError('required')}"
-          [style]="{ width: '200px' }"
-          pInputText
-          placeholder="Contraseña"
-          formControlName="password"
-        />
-        <small *ngIf="password?.touched && password?.hasError('required')" id="password-help" class="p-error block">
-          Contraseña es requerida
-        </small>
-      </div>
-
+    <div *ngIf="isLoading" class="spinner">
+      <app-spinner></app-spinner>
     </div>
-      <div class="form-buttons">
-        <button
+    <form [formGroup]="form">
+      <div *ngIf="!isLoading">
+        <small *ngIf="isPast" class="p-error block">
+          No puede reservarse un día que ya pasó
+        </small>
+        <small *ngIf="hourBooked?.length == 2 && !isPast" class="p-error block">
+          Ya se reservaron todos los turnos para este día
+        </small>
+        <div *ngIf="hourBooked?.length != 2 && !isPast">
+          <small *ngIf="error != ''" class="p-error block">
+            {{error}}
+          </small>
+          <div class="field">
+            <p-cascadeSelect
+            [ngClass]="{'ng-invalid ng-dirty': flat?.touched && flat?.hasError('required')}"
+            formControlName="flat"
+            aria-describedby="flat-help"
+            [options]="flats"
+            optionGroupLabel="floor"
+            [optionGroupChildren]="['dptos']"
+            [style]="{ width: '100px' }"
+            placeholder="Dpto"
+            ></p-cascadeSelect>
+            <small *ngIf="flat?.touched && flat?.hasError('required')" id="flat-help" class="p-error block">
+              Debe seleccionar un departamento
+            </small>
+          </div>
+          
+          <div class="field">
+            <div class="field-radiobutton" *ngIf="!hourBooked.includes('day')">
+              <p-radioButton
+              aria-describedby="hour-help"
+              class="radio-button"
+              name="hour"
+              value="day"
+              formControlName="hour"
+              inputId="day"
+              ></p-radioButton>
+              <label for="day">Día</label>
+            </div>
+            <div class="field-radiobutton" *ngIf="!hourBooked.includes('night')">
+              <p-radioButton
+              aria-describedby="hour-help"
+              class="radio-button"
+              name="hour"
+              value="night"
+              formControlName="hour"
+              inputId="night"
+              ></p-radioButton>
+              <label for="night">Noche</label>
+            </div>
+            <small *ngIf="hour?.touched && hour?.hasError('required')" id="hour-help" class="p-error block">
+              Debe seleccionar un horario
+            </small>
+          </div>
+          
+          <div class="field">
+            <input
+            type="password"
+            aria-describedby="password-help"
+            [ngClass]="{'ng-invalid ng-dirty': password?.touched && password?.hasError('required')}"
+            [style]="{ width: '200px' }"
+            pInputText
+            placeholder="Contraseña"
+            formControlName="password"
+            />
+            <small *ngIf="password?.touched && password?.hasError('required')" id="password-help" class="p-error block">
+              Contraseña es requerida
+            </small>
+          </div>
+        </div>
+          
+        </div>
+        <div class="form-buttons">
+          <button
           (click)="toogleCancel()"
           pButton
           pRipple
@@ -81,14 +86,15 @@
           label="Cancelar"
           class="p-button-secondary p-button-text"
           icon="pi pi-times"
-        ></button>
-        <p-button
+          ></button>
+          <p-button
           (click)="toggleConfirm()"
           label="Confirmar"
           icon="pi pi-check"
-          *ngIf="hourBooked?.length != 2 && !isPast"
-        ></p-button>
-      </div>
-    </form>
+          *ngIf="!isLoading && hourBooked?.length != 2 && !isPast"
+          ></p-button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
+  
