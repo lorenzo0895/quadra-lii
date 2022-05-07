@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  URI_API_BOOKS:'/api/books',
-  URI_API_FLATS:'/api/flats',
+  URI_API: '/api/'
 };
 
 /*

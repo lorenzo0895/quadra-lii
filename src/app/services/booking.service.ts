@@ -16,7 +16,7 @@ type booking = {
   providedIn: 'root',
 })
 export class BookingService {
-  uri: string = '/api/books';
+  uri: string = 'https://quadra-lii-api.herokuapp.com/books';
 
   constructor(private http: HttpClient) {}
 

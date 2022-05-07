@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class FlatService {
-  uri: string = '/api/flats';
+  uri: string = 'https://quadra-lii-api.herokuapp.com/flats';
 
   constructor(private http: HttpClient) {}
 

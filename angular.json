@@ -75,12 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "quadra-lii:build:production",
-              "proxyConfig": "src/proxy.conf.json"
+              "browserTarget": "quadra-lii:build:production"
             },
             "development": {
-              "browserTarget": "quadra-lii:build:development",
-              "proxyConfig": "src/proxy.conf.json"
+              "browserTarget": "quadra-lii:build:development"
             }
           },
           "defaultConfiguration": "development"
