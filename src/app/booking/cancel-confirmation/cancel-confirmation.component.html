@@ -5,7 +5,10 @@
       <div *ngIf="isLoading" class="spinner">
         <app-spinner></app-spinner>
       </div>
-      <div *ngIf="!isLoading">
+      <small *ngIf="isPast" class="p-error block">
+        No se puede borrar una reserva que ya pasó
+      </small>
+      <div *ngIf="!isLoading && !isPast">
         <p>
           Usted está por cancelar la reserva del día
           {{ booking?.start | date: "dd/MM/yy" }} para turno
