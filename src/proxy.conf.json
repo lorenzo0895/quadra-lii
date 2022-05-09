@@ -1,9 +1,0 @@
-{
-  "/api/*": {
-      "target": "https://quadra-lii-api.herokuapp.com/",
-      "secure": false,
-      "logLevel": "debug",
-      "changeOrigin": true,
-      "pathRewrite": { "^/api": "" }
-  }
-}

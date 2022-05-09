@@ -15,7 +15,14 @@
     (onCancel)="isCancelShown = false"
     (onConfirm)="cancelTurn($event)"
   ></app-cancel-confirmation>
-  <small class="info">
-    Por problemas en reservas escribir a <a href="mailto:lorenzo0895@gmail.com">lorenzo0895@gmail.com</a>
-  </small>
+  <div class="info">
+    <small><span class="day"></span>Mediodía</small>
+    <small><span class="night"></span>Noche</small>
+    <small>
+      Para más información revise el <a routerLink="/info/procedure">Reglamento Interno</a>.
+    </small>
+    <small>
+      Por problemas en reservas escribir a <a href="mailto:lorenzo0895@gmail.com">lorenzo0895@gmail.com</a>
+    </small>
+  </div>
 </main>

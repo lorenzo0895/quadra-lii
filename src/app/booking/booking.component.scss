@@ -1,8 +1,23 @@
 main {
   padding: 20px;
   .info {
-    margin-top: 60px;
-    text-align: center;
+    margin-top: 30px;
+    & > * {
+      display: block;
+      & span {
+        margin-right: 5px;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      & .day {
+        background-color: #21c75d;
+      }
+      & .night {
+        background-color: #212faa;
+      }
+    }
   }
 }
 :host ::ng-deep .fc .fc-toolbar-title {
